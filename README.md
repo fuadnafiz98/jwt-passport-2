@@ -1,4 +1,10 @@
-curl \
--d '{ "username": "fuad", "email": "fuad@mail.com" }' \
--H "Content-Type: application/json" 
--X POST http://localhost:3000/login
+# React.js Node.js Passport.js Authentication Example
+
+
+## Knex Setup 
+
+- make `knexfile.ts` 
+`npx knex init -x ts`
+* make migrations 
+`npx knex migrate:make create_users -x ts`
+
