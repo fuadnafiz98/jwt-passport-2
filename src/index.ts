@@ -1,40 +1,45 @@
-import express, {NextFunction, Response, Request} from "express";
+import express, { NextFunction, Response, Request } from "express";
 import jwt from "jsonwebtoken";
 import passport from "passport";
 import * as bodyParser from "body-parser";
-import { Strategy  as JWTStrategy } from "passport-jwt";
-import { ExtractJwt  as ExtractJWT } from "passport-jwt";
+import { Strategy as JWTStrategy } from "passport-jwt";
+import { ExtractJwt as ExtractJWT } from "passport-jwt";
 import { StrategyOptions } from "passport-jwt";
 
 const ok = true;
 
 const config: StrategyOptions = {
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-  secretOrKey: "passwordless"
+  secretOrKey: "passwordless",
 };
 
-passport.use(new JWTStrategy(config, function(payload, done) {
-  console.log("payload => ", payload);
-  if(ok) {
-    return done(null, {
-      username: "fuad",
-      email: "fuad@mail.com"
-    });
-  } else {
-    return done(false);
-  }
-}));
+passport.use(
+  new JWTStrategy(config, function (payload, done) {
+    console.log("payload => ", payload);
+    // TODO: search in database??
+    if (ok) {
+      return done(null, {
+        username: "fuad",
+        email: "fuad@mail.com",
+      });
+    } else {
+      return done(false);
+    }
+  })
+);
 
 const app = express();
 app.use(bodyParser.json());
 app.use(passport.initialize());
 
 app.post("/signin", (req, res) => {
-  const { username, email } = req.body;  
-  const token = jwt.sign({ username, email }, "passwordless", { expiresIn: 12000 });
+  const { username, email } = req.body;
+  const token = jwt.sign({ username, email }, "passwordless", {
+    expiresIn: 12000,
+  });
   res.json({
     success: true,
-    token: token
+    token: token,
   });
 });
 
@@ -53,7 +58,7 @@ app.get("/vip", handleAuth, (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.json({ get: "Ok"});
+  res.json({ get: "Ok" });
 });
 
 app.listen(8080, () => {
