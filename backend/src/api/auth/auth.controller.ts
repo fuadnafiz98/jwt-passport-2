@@ -38,7 +38,18 @@ async function signUp({
   };
 }
 
-async function signIn({ name, password }: { name: string; password: string }) {
+async function signIn({
+  name,
+  password,
+}: {
+  name: string;
+  password: string;
+}): Promise<{
+  name: string;
+  token: string;
+  role: string;
+  _id: string;
+}> {
   const user = await Users.query().findOne({ name: name });
   if (!user) {
     throw new Error("user not found");
@@ -53,8 +64,8 @@ async function signIn({ name, password }: { name: string; password: string }) {
     });
     return {
       name,
+      token,
       role: user.role,
-      token: token,
       _id: user.id,
     };
   } else {

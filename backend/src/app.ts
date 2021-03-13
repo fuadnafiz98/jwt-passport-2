@@ -1,23 +1,18 @@
-import express from "express";
-
-import { errorHandler, notFound } from "./middlewares";
+import express, { Request, Response, NextFunction, Errback } from "express";
+// import { errorHandler, notFound } from "./middlewares";
 import api from "./api";
+import cookieParser from "cookie-parser";
+import cors from "cors";
 import passport from "./auth/passport";
 import { errors } from "celebrate";
 
-import knex from "knex";
-import { Model } from "objection";
-
-import knexConfig from "../knexfile";
-
-const connectionConfig = knexConfig["development"];
-
-const connection = knex(connectionConfig);
-
-Model.knex(connection);
+import loadDatabase from "./loaders/database";
+loadDatabase();
 
 const app = express();
 
+app.use(cors());
+app.use(cookieParser());
 app.use(express.json());
 app.use(passport.initialize());
 
@@ -28,13 +23,13 @@ app.get("/", (_, res) => {
 });
 
 app.use("/api", api);
-app.use((err, req, res, next) => {
+app.use((err: Errback, req: Request, res: Response, next: NextFunction) => {
   console.log(err);
   return res.status(404).json({ message: err });
 });
 
 // app.use(notFound);
 // app.use(errorHandler);
-// app.use(errors());
+app.use(errors());
 
 export default app;
