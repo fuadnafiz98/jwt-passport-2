@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const SignIn = () => {
+  const authContext = useContext(AuthContext);
+
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     console.log(name, password);
     try {
-      const data = await fetch("/api/auth/signin", {
+      const response = await fetch("/api/auth/signin", {
         method: "POST",
         mode: "cors",
         headers: {
@@ -15,10 +18,10 @@ const SignIn = () => {
         },
         body: JSON.stringify({ name, password }),
       });
-      const js = await data.json();
-      console.log(js);
+      const { data } = await response.json();
+      authContext?.setAuthState(data);
     } catch (err) {
-      console.log("error at signup");
+      console.log("error at signin");
       console.log(err);
     }
   };

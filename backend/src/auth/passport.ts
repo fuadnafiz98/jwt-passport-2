@@ -1,10 +1,20 @@
+import { Request } from "express";
 import passport from "passport";
 import { Strategy as JWTStrategy } from "passport-jwt";
 import { ExtractJwt as ExtractJWT } from "passport-jwt";
 import { StrategyOptions } from "passport-jwt";
 
+const getTokenFromCookie = (request: Request) => {
+  let token = null;
+  if (request && request.cookies) token = request.cookies["JWTToken"];
+  console.log("auth/passport.js => ", token);
+  return token;
+};
+
 const config: StrategyOptions = {
-  jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+  // jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+  jwtFromRequest: getTokenFromCookie,
+  // TODO: use `dotenv`
   secretOrKey: "passwordless",
 };
 

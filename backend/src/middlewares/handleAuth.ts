@@ -7,6 +7,9 @@ const handleAuth = (req: Request, res: Response, next: NextFunction) => {
     console.log(`user => ${JSON.stringify(user)}`);
     console.log(`info => ${info}`);
     req.user = user;
+    if (!user) {
+      return res.status(401).json("unauth");
+    }
     next();
   })(req, res, next);
 };

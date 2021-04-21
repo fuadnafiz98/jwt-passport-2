@@ -2,7 +2,7 @@
 import { randomBytes } from "crypto";
 import argon2 from "argon2";
 import Users from "../users/users.model";
-import { generateToken } from "../../auth/jwt";
+import { generateToken, validateToken } from "../../auth/jwt";
 
 async function signUp({
   name,
@@ -19,22 +19,43 @@ async function signUp({
   }
   const salt = randomBytes(32);
   const hashedPassword = await argon2.hash(password, { salt });
+
   const user = await Users.query().insert({
-    //@ts-ignore
     name: name,
     password: hashedPassword,
     role: role,
+    refreshToken: refreshToken,
   });
-  console.log("user", user);
-  const token = generateToken({
-    _id: user.id,
-    name: user.name,
-    role: user.role,
-  });
+
+  const token = generateToken(
+    {
+      _id: user.id,
+      name: user.name,
+      role: user.role,
+    },
+    false
+  );
+
+  const refreshToken = generateToken(
+    {
+      _id: user.id,
+      name: user.name,
+      role: user.role,
+    },
+    true
+  );
+
+  const updatedUser = await Users.query()
+    .patch({ refreshToken: refreshToken })
+    .where("name", "=", name);
+  console.log("updated User", updatedUser);
+
   return {
     username: user.name,
     userId: user.id,
+    role: user.role,
     token: token,
+    refreshToken,
   };
 }
 
@@ -47,6 +68,7 @@ async function signIn({
 }): Promise<{
   name: string;
   token: string;
+  refreshToken: string;
   role: string;
   _id: string;
 }> {
@@ -56,15 +78,31 @@ async function signIn({
   }
   const validPassword = await argon2.verify(user.password, password);
   if (validPassword) {
-    const token = generateToken({
-      name,
-      password,
-      _id: user.id,
-      role: user.role,
-    });
+    const token = generateToken(
+      {
+        name,
+        password,
+        _id: user.id,
+        role: user.role,
+      },
+      false
+    );
+    const refreshToken = generateToken(
+      {
+        _id: user.id,
+        name: user.name,
+        role: user.role,
+      },
+      true
+    );
+    const updatedUser = await Users.query()
+      .patch({ refreshToken: refreshToken })
+      .where("name", "=", name);
+    console.log("updated User", updatedUser);
     return {
       name,
       token,
+      refreshToken,
       role: user.role,
       _id: user.id,
     };
@@ -73,4 +111,48 @@ async function signIn({
   }
 }
 
-export { signIn, signUp };
+async function signOut({ userInfo }) {
+  if (userInfo === null || userInfo.name === null) return;
+  const updatedUser = await Users.query()
+    .patch({ refreshToken: null })
+    .where("name", "=", userInfo.name);
+  console.log("updated User", updatedUser);
+}
+
+async function checkToken(
+  cookies
+): Promise<{
+  name: string;
+  token: string;
+  refreshToken: string;
+  role: string;
+  _id: string;
+} | null> {
+  if (cookies === null) return null;
+  const refreshToken = cookies["refreshToken"];
+  if (refreshToken === null) return null;
+  const user = validateToken(refreshToken, true);
+  if (user === null) return null;
+  console.time("db start");
+  const result = await Users.query()
+    .select("*")
+    .where("refreshToken", "=", refreshToken);
+  console.timeEnd("db start");
+  if (result.length === 0) return null;
+  const token = generateToken(
+    {
+      _id: result[0].id,
+      name: result[0].name,
+      role: result[0].role,
+    },
+    false
+  );
+  return {
+    _id: result[0].id,
+    token,
+    role: result[0].role,
+    name: result[0].name,
+  };
+}
+
+export { checkToken, signIn, signUp, signOut };

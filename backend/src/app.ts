@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import passport from "./auth/passport";
 import { errors } from "celebrate";
+import { handleAuth, handleRefreshToken } from "./middlewares";
 
 import loadDatabase from "./loaders/database";
 loadDatabase();
@@ -22,7 +23,12 @@ app.get("/", (_, res) => {
   });
 });
 
+app.get("/api/vip", handleAuth, (req, res) => {
+  return res.json(req.user);
+});
+
 app.use("/api", api);
+
 app.use((err: Errback, req: Request, res: Response, next: NextFunction) => {
   console.log(err);
   return res.status(404).json({ message: err });

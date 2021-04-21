@@ -4,7 +4,7 @@ module.exports = {
   development: {
     client: "mysql",
     connection: {
-      database: process.env.MARIADB_DATABASE || "mariadb",
+      database: process.env.MYSQL_DATABASE || "jwt",
       user: "admin",
       password: "password",
     },

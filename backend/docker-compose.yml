@@ -1,13 +1,13 @@
 version: "3.1"
 services:
   db:
-    image: mariadb:latest
+    image: mysql:5.7
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_USER: admin
       MYSQL_PASSWORD: password
-      MYSQL_DATABASE: mariadb
+      MYSQL_DATABASE: jwt
     ports:
       - 3306:3306
   adminer:

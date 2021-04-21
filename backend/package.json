@@ -6,7 +6,7 @@
   "scripts": {
     "update": "npx npm-check-updates -u",
     "watch": "tsc -w --preserveWatchOutput",
-    "serve": "nodemon dist/src/index.js"
+    "dev": "nodemon dist/src/index.js"
   },
   "keywords": [],
   "author": "",
@@ -15,27 +15,27 @@
     "@types/cookie-parser": "^1.4.2",
     "@types/cors": "^2.8.10",
     "@types/express": "^4.17.11",
-    "@types/jsonwebtoken": "^8.5.0",
+    "@types/jsonwebtoken": "^8.5.1",
     "@types/passport": "^1.0.6",
     "@types/passport-jwt": "^3.0.5",
-    "@typescript-eslint/eslint-plugin": "^4.17.0",
-    "@typescript-eslint/parser": "^4.17.0",
-    "argon2": "^0.27.1",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
+    "argon2": "^0.27.2",
     "body-parser": "^1.19.0",
-    "celebrate": "^13.0.4",
+    "celebrate": "^14.0.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
-    "eslint": "^7.21.0",
+    "eslint": "^7.24.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^0.95.2",
+    "knex": "^0.95.4",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.7",
-    "objection": "^2.2.14",
+    "objection": "^2.2.15",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "prettier": "^2.2.1",
-    "typescript": "^4.2.3"
+    "typescript": "^4.2.4"
   }
 }

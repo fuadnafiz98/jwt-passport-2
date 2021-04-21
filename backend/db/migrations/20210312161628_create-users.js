@@ -4,6 +4,8 @@ exports.up = async function (knex) {
     table.string("name");
     table.string("password");
     table.string("role");
+    table.string("refreshToken");
+    table.timestamp("lastLogin").defaultTo(knex.fn.now());
     table.timestamps();
   });
 };
