@@ -1,29 +1,12 @@
 //@ts-nocheck
 import React, { useContext, useEffect, useRef } from "react";
+import { useHistory } from "react-router";
 import { AuthContext } from "../context/AuthContext";
-
-function useInterval(callback, delay: number) {
-  const savedCallback = useRef();
-
-  // Remember the latest callback.
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
-
-  // Set up the interval.
-  useEffect(() => {
-    function tick() {
-      savedCallback.current();
-    }
-    if (delay !== null) {
-      let id = setInterval(tick, delay);
-      return () => clearInterval(id);
-    }
-  }, [delay]);
-}
+import useInterval from "../hooks/useInterval";
 
 const Dashboard = () => {
   const auth = useContext(AuthContext);
+  const history = useHistory();
 
   const refreshToken = async () => {
     console.log("refresh token generating....");
@@ -31,17 +14,18 @@ const Dashboard = () => {
       credentials: "include",
     });
     if (response.status === 401) {
-      console.log("clearing");
-      clearTimeout(refreshToken);
+      history.push("/signin");
       return;
     }
     const { data } = await response.json();
     auth?.setAuthState(data);
     console.log("refreshed", data);
-    setTimeout(refreshToken, 15000);
   };
 
-  useInterval(() => refreshToken(), 15000);
+  useInterval(() => {
+    console.log("interval calling");
+    refreshToken();
+  }, 15000);
 
   useEffect(() => {
     async function fetchData() {

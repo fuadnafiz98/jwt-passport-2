@@ -17,7 +17,7 @@ function generateToken(payload: Payload, isRefreshToken: boolean) {
     },
     isRefreshToken ? "nowwhat" : "passwordless",
     {
-      expiresIn: "60s",
+      expiresIn: isRefreshToken ? "90d" : "60s",
     }
   );
 }
