@@ -17,6 +17,9 @@ const Nav = () => {
           </Link>
         </li>
         <li>
+          <Link to="/magic">Magic</Link>
+        </li>
+        <li>
           <Link to="/signin">Signin</Link>
         </li>
         <li>

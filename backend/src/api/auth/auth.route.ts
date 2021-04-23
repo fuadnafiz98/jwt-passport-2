@@ -1,8 +1,18 @@
-import express from "express";
+import express, { request } from "express";
 import { celebrate, Joi } from "celebrate";
 import { signIn, signOut, signUp, checkToken } from "./auth.controller";
 
 const router = express.Router();
+
+import passport, { magicLogin } from "../../auth/passport";
+router.post("/magicLogin", magicLogin.send);
+router.get("/magicLogin/callback", (req, res) => {
+  passport.authenticate("magiclogin", { session: true }, (err, user, info) => {
+    console.log("h");
+    console.log(err, user, info);
+    return res.json(user);
+  })(req, res);
+});
 
 router.post(
   "/signup",

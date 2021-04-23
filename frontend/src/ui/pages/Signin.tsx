@@ -20,11 +20,11 @@ const SignIn = () => {
       });
       if (response.status === 200) {
         const { data } = await response.json();
+        authContext?.setAuthState(data);
       } else {
         const json = await response.json();
         console.log(json);
       }
-      // authContext?.setAuthState(data);
     } catch (err) {
       console.log("error at signin");
       console.log(err);

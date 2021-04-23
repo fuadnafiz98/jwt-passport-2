@@ -4,6 +4,7 @@ import { AuthProvider } from "./context/AuthContext";
 
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
+import Magic from "./pages/Magic";
 import Nav from "./components/nav";
 import SignIn from "./pages/Signin";
 import SignUp from "./pages/Signup";
@@ -18,6 +19,9 @@ function App() {
           <Switch>
             <Route path="/dashboard">
               <Dashboard />
+            </Route>
+            <Route path="/magic">
+              <Magic />
             </Route>
             <Route path="/signin">
               <SignIn />
