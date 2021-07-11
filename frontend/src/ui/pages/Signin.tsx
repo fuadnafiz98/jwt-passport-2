@@ -6,6 +6,8 @@ const SignIn = () => {
 
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     console.log(name, password);
@@ -16,7 +18,7 @@ const SignIn = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, password }),
+        body: JSON.stringify({ name, email, password }),
       });
       if (response.status === 200) {
         const { data } = await response.json();
@@ -45,6 +47,14 @@ const SignIn = () => {
         name="password"
         id="password"
         onChange={(e) => setPassword(e.target.value)}
+      />
+      <label htmlFor="email">email</label>
+      <input
+        type="text"
+        name="email"
+        id="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
       <button type="submit">SignIn</button>
     </form>

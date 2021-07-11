@@ -5,6 +5,7 @@ const SignUp = () => {
   const authContext = useContext(AuthContext);
 
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("role");
 
@@ -18,7 +19,7 @@ const SignUp = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, password, role }),
+        body: JSON.stringify({ name, password, role, email }),
       });
       const { data } = await response.json();
       authContext?.setAuthState(data);
@@ -37,6 +38,14 @@ const SignUp = () => {
         id="name"
         value={name}
         onChange={(e) => setName(e.target.value)}
+      />
+      <label htmlFor="email">email</label>
+      <input
+        type="text"
+        name="email"
+        id="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
       <label htmlFor="password">Password</label>
       <input

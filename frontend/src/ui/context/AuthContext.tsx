@@ -6,6 +6,7 @@ type UserType = {
   _id?: string | undefined;
   name?: string;
   role?: string;
+  email?: string;
 };
 
 type AuthContextType = {

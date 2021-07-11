@@ -5,6 +5,7 @@ import { signIn, signOut, signUp, checkToken } from "./auth.controller";
 const router = express.Router();
 
 import passport, { magicLogin } from "../../auth/passport";
+
 router.post("/magicLogin", magicLogin.send);
 router.get("/magicLogin/callback", (req, res) => {
   passport.authenticate("magiclogin", { session: true }, (err, user, info) => {
@@ -18,6 +19,7 @@ router.post(
   "/signup",
   celebrate({
     body: Joi.object({
+      email: Joi.string().required(),
       name: Joi.string().required(),
       password: Joi.string().required(),
       role: Joi.string().required(),
@@ -58,6 +60,7 @@ router.post(
   "/signin",
   celebrate({
     body: Joi.object({
+      email: Joi.string().required(),
       name: Joi.string().required(),
       password: Joi.string().required(),
     }),
@@ -81,6 +84,7 @@ router.post(
         data: {
           token: data.token,
           userInfo: {
+            email: data.email,
             name: data.name,
             userId: data._id,
             role: data.role,
