@@ -1,0 +1,80 @@
+Arguments: 
+  /home/fuadnafiz98/.nvm/versions/node/v16.4.0/bin/node /home/fuadnafiz98/.nvm/versions/node/v16.4.0/bin/yarn add tsconfig-paths
+
+PATH: 
+  /home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/home/fuadnafiz98/.local/bin:/home/fuadnafiz98/local/bin:/home/fuadnafiz98/.nvm/versions/node/v16.4.0/bin:/home/fuadnafiz98/.local/kitty.app/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/home/fuadnafiz98/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
+Yarn version: 
+  1.22.10
+
+Node version: 
+  16.4.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  SyntaxError: /mnt/B49635D3963596B8/Web/Web/nodejs/auth/session-auth-app/main/backend/package.json: Unexpected token / in JSON at position 88
+      at JSON.parse (<anonymous>)
+      at /home/fuadnafiz98/.nvm/versions/node/v16.4.0/lib/node_modules/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/home/fuadnafiz98/.nvm/versions/node/v16.4.0/lib/node_modules/yarn/lib/cli.js:310:30)
+      at /home/fuadnafiz98/.nvm/versions/node/v16.4.0/lib/node_modules/yarn/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "starter",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+  //  "imports": {
+   //   "@root/*": "./src/"//},
+    "scripts": {
+      "update": "npx npm-check-updates -u",
+      "watch": "tsc -w --preserveWatchOutput",
+      "dev": "nodemon dist/src/index.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "@prisma/client": "^2.26.0",
+      "@types/cookie-parser": "^1.4.2",
+      "@types/cors": "^2.8.10",
+      "@types/express": "^4.17.11",
+      "@types/jsonwebtoken": "^8.5.1",
+      "@types/passport": "^1.0.6",
+      "@types/passport-jwt": "^3.0.5",
+      "@typescript-eslint/eslint-plugin": "^4.22.0",
+      "@typescript-eslint/parser": "^4.22.0",
+      "argon2": "^0.27.2",
+      "body-parser": "^1.19.0",
+      "celebrate": "^14.0.0",
+      "cookie-parser": "^1.4.5",
+      "cors": "^2.8.5",
+      "dotenv": "^8.2.0",
+      "eslint": "^7.24.0",
+      "express": "^4.17.1",
+      "jsonwebtoken": "^8.5.1",
+      "knex": "^0.95.4",
+      "mysql": "^2.18.1",
+      "nodemon": "^2.0.7",
+      "objection": "^2.2.15",
+      "passport": "^0.4.1",
+      "passport-jwt": "^4.0.0",
+      "prettier": "^2.2.1",
+      "typescript": "^4.2.4"
+    },
+    "devDependencies": {
+      "prisma": "^2.26.0"
+    },
+    "_moduleAliases": {
+      "@root": "./src"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

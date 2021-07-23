@@ -1,7 +1,6 @@
 import { Request } from "express";
 import passport from "passport";
 import { Strategy as JWTStrategy } from "passport-jwt";
-import { ExtractJwt as ExtractJWT } from "passport-jwt";
 import { StrategyOptions } from "passport-jwt";
 import MagicLoginStrategy from "passport-magic-login";
 
@@ -9,7 +8,7 @@ import MagicLoginStrategy from "passport-magic-login";
 export const magicLogin = new MagicLoginStrategy({
   secret: "passwordless",
   // The authentication callback URL
-  callbackUrl: "/api/auth/magicLogin/callback",
+  callbackUrl: "/api/auth/magic/callback",
 
   // Called with th e generated magic link so you can send it to the user
   // "destination" is what you POST-ed from the client

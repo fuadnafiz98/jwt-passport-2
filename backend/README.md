@@ -1,15 +1,9 @@
-# React.js Node.js Passport.js Authentication Example
+# JWT-Passport Authentication
 
+## Installation
 
-## Knex Setup 
-
-- make `knexfile.ts` 
-
-  `npx knex init -x ts`
-- make migrations 
-
-  `npx knex migrate:make create_users -x ts`
-- run migrations
-
-  `npx knex migrate:latest`
-
+```bash
+yarn 
+# or
+npm install
+```

@@ -1,14 +1,11 @@
 import express, { Request, Response, NextFunction, Errback } from "express";
-// import { errorHandler, notFound } from "./middlewares";
-import api from "./api";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import passport from "./auth/passport";
 import { errors } from "celebrate";
+// import { errorHandler, notFound } from "./middlewares";
+import api from "./api";
+import passport from "./auth/passport";
 import { handleAuth, handleRefreshToken } from "./middlewares";
-
-import loadDatabase from "./loaders/database";
-loadDatabase();
 
 const app = express();
 

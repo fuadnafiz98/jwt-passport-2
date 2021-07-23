@@ -19,7 +19,7 @@ const SignUp = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, password, role, email }),
+        body: JSON.stringify({ username: name, password, role, email }),
       });
       const { data } = await response.json();
       authContext?.setAuthState(data);

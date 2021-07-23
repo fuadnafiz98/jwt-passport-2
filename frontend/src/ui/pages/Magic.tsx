@@ -6,7 +6,7 @@ const Magic = () => {
     e.preventDefault();
     try {
       console.log(email);
-      const response = await fetch("/api/auth/magicLogin", {
+      const response = await fetch("/api/auth/magic", {
         method: "POST",
         mode: "cors",
         headers: {

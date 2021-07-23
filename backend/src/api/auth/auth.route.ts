@@ -6,10 +6,10 @@ const router = express.Router();
 
 import passport, { magicLogin } from "../../auth/passport";
 
-router.post("/magicLogin", magicLogin.send);
-router.get("/magicLogin/callback", (req, res) => {
-  passport.authenticate("magiclogin", { session: true }, (err, user, info) => {
-    console.log("h");
+router.post("/magic", magicLogin.send);
+router.get("/magic/callback", (req, res) => {
+  passport.authenticate("magiclogin", { session: false }, (err, user, info) => {
+    console.log("---- [magic login] ----");
     console.log(err, user, info);
     return res.json(user);
   })(req, res);
@@ -20,40 +20,12 @@ router.post(
   celebrate({
     body: Joi.object({
       email: Joi.string().required(),
-      name: Joi.string().required(),
+      username: Joi.string().required(),
       password: Joi.string().required(),
       role: Joi.string().required(),
     }),
   }),
-  async (req, res, next) => {
-    try {
-      const data = await signUp(req.body);
-      res.cookie("JWTToken", data.token, {
-        httpOnly: true,
-        secure: true,
-      });
-      res.cookie("refreshToken", data.refreshToken, {
-        httpOnly: true,
-        secure: true,
-      });
-      return res.json({
-        data: {
-          token: data.token,
-          userInfo: {
-            name: data.username,
-            userId: data.userId,
-            role: data.role,
-          },
-        },
-      });
-    } catch (err) {
-      // throw new Error(
-      //   `================== error at /signup ================\n
-      //     ${err.message}`
-      // );
-      return next(err.message);
-    }
-  }
+  signUp
 );
 
 router.post(
@@ -65,85 +37,11 @@ router.post(
       password: Joi.string().required(),
     }),
   }),
-  async (req, res, next) => {
-    try {
-      const data = await signIn(req.body);
-      console.log(data);
-
-      res.cookie("JWTToken", data.token, {
-        httpOnly: true,
-        secure: true,
-      });
-
-      res.cookie("refreshToken", data.refreshToken, {
-        httpOnly: true,
-        secure: true,
-      });
-
-      return res.json({
-        data: {
-          token: data.token,
-          userInfo: {
-            email: data.email,
-            name: data.name,
-            userId: data._id,
-            role: data.role,
-          },
-        },
-      });
-    } catch (err) {
-      // throw new Error(
-      //   `================== error at /signin ================\n
-      //     ${err.message}`
-      // );
-      return next(err.message);
-    }
-  }
+  signIn
 );
 
-router.post("/signout", async (req, res, next) => {
-  try {
-    await signOut(req.body);
-  } catch (err) {
-    return next(err.message);
-  }
-  if (req.cookies.JWTToken) {
-    res.clearCookie("JWTToken", {
-      httpOnly: true,
-    });
-  }
-  if (req.cookies.refreshToken) {
-    res.clearCookie("refreshToken", {
-      httpOnly: true,
-    });
-  }
-  return res.json({
-    data: "user logged out successfully",
-  });
-});
+router.post("/signout", signOut);
 
-router.get("/token", async (req, res, next) => {
-  console.log("/token");
-  const data = await checkToken(req.cookies);
-  console.log("/token", data);
-  if (data === null) {
-    console.log("returning");
-    return res.status(401).json({ data: "unauth token" });
-  }
-  res.cookie("JWTToken", data.token, {
-    httpOnly: true,
-    secure: true,
-  });
-  return res.json({
-    data: {
-      token: data.token,
-      userInfo: {
-        name: data.name,
-        userId: data._id,
-        role: data.role,
-      },
-    },
-  });
-});
+router.get("/token", checkToken);
 
 export default router;
